@@ -21,6 +21,8 @@ orderNo=123456789&type=alipay&money=23&key="888888"
 |signKey    |    String     |   手机唯一标识|
 
 
+|客服端：    |    数据类型    |    含义  |
+|----- -----|---------------|---------|
 |code        |    String    |   类型2（1心跳链接，2支付数据返回）|
 |signKey     |    String    |   手机唯一标识|
 |orderNo     |    String    |   订单号|
