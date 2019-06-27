@@ -21,6 +21,7 @@ public class ServerSocketService {
         public void onDisconnected(String host) {
             System.out.println("断开:" + host);
             //断开连接时要做的操作写这里
+            ServerSocketManager.map.remove(host);
         }
 
         @Override
@@ -68,7 +69,7 @@ public class ServerSocketService {
             manager.addOnClientListener(clientListener);
             manager.addOnReveicedMessageListener(messageListener);
             //TODO 服务器ip
-            String ip = "192.168.0.107";
+            String ip = "192.168.0.101";
             if (ip != null && !"".equals(ip)) {
                 manager.startServer(ip, 9090);
                 System.out.println("-------ServerSocketManager------");

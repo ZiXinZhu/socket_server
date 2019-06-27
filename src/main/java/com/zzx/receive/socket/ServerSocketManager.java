@@ -135,7 +135,7 @@ public class ServerSocketManager { //ServerSocketManager.java开始
         }
 
         public void dispatch(SelectionKey key) throws IOException, InterruptedException {
-            System.out.println("-----dispatch----------");
+            System.out.println("-----dispatch----------"+key.isValid());
             // 测试此键的通道是否已准备好接受新的套接字连接。
             if (key.isAcceptable()) {
                 System.out.println("-----isAcceptable----------");
@@ -170,6 +170,7 @@ public class ServerSocketManager { //ServerSocketManager.java开始
                 // }
                 // }
             } else if (key.isReadable()) {
+                System.out.println("-----dis----------"+key.isValid());
                 // 这是一个read事件,并且这个事件是注册在socketchannel上的.
                 SocketChannel sc = (SocketChannel) key.channel();
                 String host = ((InetSocketAddress) sc.getRemoteAddress())
@@ -178,7 +179,14 @@ public class ServerSocketManager { //ServerSocketManager.java开始
                 int port = ((InetSocketAddress) sc.getRemoteAddress()).getPort();//部署在外网时，需要获取随机的端口
                 host = host + ":" + port;
                 // 写数据到buffer
-                int count = sc.read(temp);
+                int count=0;
+                try {
+                     count = sc.read(temp);
+                }catch (Exception e){
+                    sc.close();
+                    map.remove(host);
+                }
+
                 System.out.println("-------count-------" + count);
                 if (count < 0) {
                     map.remove(host);
